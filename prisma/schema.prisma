@@ -1,0 +1,151 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id                String              @id @default(cuid())
+    email             String              @unique
+    name              String?
+    password          String
+    totalXP           Int                 @default(0)
+    createdAt         DateTime            @default(now())
+    updatedAt         DateTime            @updatedAt
+    challengeProgress ChallengeProgress[]
+    moduleProgress    ModuleProgress[]
+    bookmarks         Bookmark[]
+
+    @@map("users")
+}
+
+model Module {
+    id             Int              @id @default(autoincrement())
+    moduleNumber   Int              @unique
+    title          String
+    description    String?
+    order          Int
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+    challenges     Challenge[]
+    moduleProgress ModuleProgress[]
+
+    @@map("modules")
+}
+
+model Challenge {
+    id                String              @id @default(cuid())
+    title             String
+    description       String
+    order             Int
+    moduleId          Int
+    module            Module              @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+    problem           Problem?
+    skills            ChallengeSkill[]
+    challengeProgress ChallengeProgress[]
+    createdAt         DateTime            @default(now())
+    updatedAt         DateTime            @updatedAt
+
+    @@map("challenges")
+}
+
+model Problem {
+    id          String    @id @default(cuid())
+    challengeId String    @unique
+    challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+    title       String
+    objective   String    @db.Text
+    duration    Int // in minutes
+    rewardXP    Int
+    starterCode String?   @db.Text
+    solution    String?   @db.Text
+    testCases   String?   @db.Text
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+
+    @@map("problems")
+}
+
+model Skill {
+    id              String           @id @default(cuid())
+    name            String           @unique
+    challengeSkills ChallengeSkill[]
+    createdAt       DateTime         @default(now())
+    updatedAt       DateTime         @updatedAt
+
+    @@map("skills")
+}
+
+model ChallengeSkill {
+    id          String    @id @default(cuid())
+    challengeId String
+    skillId     String
+    challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+    skill       Skill     @relation(fields: [skillId], references: [id], onDelete: Cascade)
+    createdAt   DateTime  @default(now())
+
+    @@unique([challengeId, skillId])
+    @@map("challenge_skills")
+}
+
+model ChallengeProgress {
+    id          String          @id @default(cuid())
+    userId      String
+    challengeId String
+    status      ChallengeStatus @default(NOT_STARTED)
+    startedAt   DateTime?
+    completedAt DateTime?
+    user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+    challenge   Challenge       @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+    createdAt   DateTime        @default(now())
+    updatedAt   DateTime        @updatedAt
+
+    @@unique([userId, challengeId])
+    @@map("challenge_progress")
+}
+
+model ModuleProgress {
+    id                  String       @id @default(cuid())
+    userId              String
+    moduleId            Int
+    status              ModuleStatus @default(LOCKED)
+    completedChallenges Int          @default(0)
+    totalChallenges     Int
+    user                User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+    module              Module       @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+    createdAt           DateTime     @default(now())
+    updatedAt           DateTime     @updatedAt
+
+    @@unique([userId, moduleId])
+    @@map("module_progress")
+}
+
+model Bookmark {
+    id          String   @id @default(cuid())
+    userId      String
+    challengeId String
+    user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt   DateTime @default(now())
+
+    @@unique([userId, challengeId])
+    @@map("bookmarks")
+}
+
+enum ChallengeStatus {
+    NOT_STARTED
+    CURRENT
+    COMPLETED
+    LOCKED
+}
+
+enum ModuleStatus {
+    LOCKED
+    IN_PROGRESS
+    COMPLETED
+}

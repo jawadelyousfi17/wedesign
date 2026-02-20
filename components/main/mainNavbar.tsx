@@ -1,6 +1,5 @@
 import { HugeiconsIcon } from "@hugeicons/react";
-import { UserIcon } from '@hugeicons/core-free-icons';
-
+import { UserIcon } from "@hugeicons/core-free-icons";
 
 import Image from "next/image";
 
@@ -18,7 +17,7 @@ const MainNavbar = () => {
         </div>
 
         <div className="h-full">
-          <ul className="flex gap-8 font-semibold text-lg text-muted-foreground h-full">
+          <ul className="flex gap-8 font-semibold text-md text-muted-foreground h-full">
             <li className="flex items-center  text-foreground  h-full border-b-3 border-primary">
               Home
             </li>
@@ -32,17 +31,21 @@ const MainNavbar = () => {
         </div>
       </div>
 
-    <div className="flex gap-12 items-center">
-        <div className="flex items-center py-1.5 px-4 h-fit text-lg text-slate-700 bg-muted font-bold rounded-full gap-1">
-            <Image src="/icons/fire-4.png" alt="Fire Icon" width={20} height={20}></Image>
-            12 Days Streak
+      <div className="flex gap-12 items-center">
+        <div className="flex items-center py-1.5 px-4 h-fit text-md text-slate-700 bg-muted font-semibold rounded-full gap-1">
+          <Image
+            src="/icons/fire-4.png"
+            alt="Fire Icon"
+            width={20}
+            height={20}
+          ></Image>
+          12 Days Streak
         </div>
 
         <div className="flex justify-center items-center w-12 h-12 rounded-full bg-secondary ring-1 ring-border border-2 border-card text-card">
-            <HugeiconsIcon icon={UserIcon} />
+          <HugeiconsIcon icon={UserIcon} />
         </div>
-    </div>
-
+      </div>
     </nav>
   );
 };

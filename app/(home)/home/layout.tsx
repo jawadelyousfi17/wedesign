@@ -2,7 +2,6 @@ import BackgroundPattern from "@/components/background/backgroundPattern";
 import MainNavbar from "@/components/main/mainNavbar";
 import type { Metadata } from "next";
 
-
 export const metadata: Metadata = {
   title: "wedesign | Learn Fullstack by Doing",
   description: "Master Frontend and Backend through hands-on projects.",
@@ -17,19 +16,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body>
-        
-    <BackgroundPattern />
+        <BackgroundPattern />
 
-       <MainNavbar />
-  
-        <main className="flex-grow">
-          {children}
-        </main>
+        <MainNavbar />
 
-      
+        <main className="flex-grow">{children}</main>
       </body>
     </html>
   );
 }
-
-
