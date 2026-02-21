@@ -70,14 +70,14 @@ body {
   --radius: 0.625rem;
 
   /* Brand Colors */
-  --primary: #ff5722;
+  --primary: #f48c25;
   --primary-hover: #e64a19;
   --primary-foreground: #ffffff;
   --secondary: #263238;
   --secondary-foreground: #ffffff;
 
   /* Backgrounds */
-  --background: #f8fafc;
+  --background: #ffffff;
   --foreground: #1a1a1a;
   --card: #ffffff;
   --card-foreground: #1a1a1a;

@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Check, Lock, Play } from "lucide-react";
 
 type PathCardProps = {
@@ -11,16 +12,14 @@ const PathCard = ({ title, description, status }: PathCardProps) => {
     switch (status) {
       case "Completed":
         return (
-          <div className="flex  rounded-full bg-green-600 h-8 w-8 justify-center items-center text-white">
+          <div className="flex  rounded-full bg-blue-600 h-8 w-8 justify-center items-center text-white">
             <Check size={20} />
           </div>
         );
       case "Current":
         return (
           <div className="flex gap-2 items-center">
-            <span className="px-3 py-1 bg-primary/15 text-primary text-xs font-bold rounded-md">
-              Current
-            </span>
+          
             <div className="flex rounded-full bg-primary h-8 w-8 justify-center items-center text-white">
               <Play size={16} fill="currentColor" />
             </div>
@@ -43,21 +42,31 @@ const PathCard = ({ title, description, status }: PathCardProps) => {
 
   return (
     <div
-      className={`flex justify-between p-4 rounded-2xl border items-center cursor-pointer transition-colors ${
+      className={`flex justify-between p-2 rounded-2xl border border-border/0  bg-white items-center cursor-pointer transition-colors ${
         status === "Locked"
-          ? "bg-slate-50 border-slate-200 opacity-60"
+          ? "bg-slate-50  opacity-60"
           : status === "Current"
-            ? "bg-white border-primary/40 hover:border-primary "
-            : "bg-white border-slate-200 hover:border-slate-300 "
+            ? "hover:border-primary bg-muted/50 "
+            : " hover:border-slate-300 "
       }`}
     >
-      <div className="flex">
+      <div className="flex items-center gap-4">
+              {getStatusBadge()}
+
         <div className="flex flex-col">
-          <span className="text-md font-semibold text-slate-900">{title}</span>
-          <span className="text-sm text-slate-600">{description}</span>
+          <div className="flex items-center gap-2">
+
+          <span className={cn("text-md font-semibold  text-blue-600" , status === "Current" ? "text-primary" : "", status === "Locked" ? "text-slate-500" : "")}>{title}</span>
+          {status === "Current" && (
+             <span className="px-2 py-0.5 bg-primary/15 text-primary text-xs font-bold rounded-sm">
+              Current
+            </span>
+          )}
+          </div>
+          
+          <span className="text-sm text-slate-500">{description}</span>
         </div>
       </div>
-      {getStatusBadge()}
     </div>
   );
 };

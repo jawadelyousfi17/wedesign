@@ -2,6 +2,7 @@ import { Check, ChevronDown } from "lucide-react";
 import React from "react";
 import PathCard from "./pathCard";
 import ModulCard from "./ModulCard";
+import BackgroundPattern from "@/components/background/backgroundPattern";
 
 const pathCards = [
   {
@@ -38,7 +39,7 @@ const pathCards = [
 
 const Main = () => {
   return (
-    <div className="p-8 w-full ">
+    <div className="p-8 w-full">
       <ModulCard
         moduleNumber={1}
         title="HTML Fondamentals"
@@ -46,8 +47,7 @@ const Main = () => {
         completedChallenges={4}
         totalChallenges={4}
       />
-      <div className="flex flex-col gap-2 pl-12 mt-4  relative">
-        <div className="absolute -top-4 left-6 h-[calc(100%+2rem)]  border-l border-border"></div>
+      <div className="flex flex-col gap-0 p-4  relative border border-t-0">
         {pathCards.map((card) => (
           <PathCard
             key={card.id}

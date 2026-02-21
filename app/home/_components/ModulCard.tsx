@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Check, ChevronDown, Lock, Loader } from "lucide-react";
 
 type ModulCardProps = {
@@ -25,13 +26,13 @@ const ModulCard = ({
         );
       case "progress":
         return (
-          <div className="flex justify-center items-center p-2 border-2 border-blue-600 rounded-2xl bg-blue-50 text-blue-600">
+          <div className="flex justify-center items-center p-2 border-2 border-slate-900 rounded-2xl bg-white text-slate-900">
             <Loader size={20} />
           </div>
         );
       case "Locked":
         return (
-          <div className="flex justify-center items-center p-2 border-2 border-slate-400 rounded-2xl bg-slate-100 text-slate-600">
+          <div className="flex justify-center items-center p-2 border-2 border-slate-900 rounded-2xl bg-white text-slate-900">
             <Lock size={20} />
           </div>
         );
@@ -41,20 +42,20 @@ const ModulCard = ({
   const getStatusText = () => {
     switch (status) {
       case "Completed":
-        return `COMPLETED - ${completedChallenges}/${totalChallenges} Challenges`;
+        return `Completed - ${completedChallenges}/${totalChallenges} Challenges`;
       case "progress":
-        return `IN PROGRESS - ${completedChallenges}/${totalChallenges} Challenges`;
+        return `In progress - ${completedChallenges}/${totalChallenges} Challenges`;
       case "Locked":
-        return `LOCKED - ${totalChallenges} Challenges`;
+        return `Locked - ${totalChallenges} Challenges`;
     }
   };
 
   return (
-    <div className="flex justify-between items-center bg-slate-100/80 p-3 rounded-3xl w-full border border-slate-200">
+    <div className="flex justify-between items-center bg-slate-100/80 p-3 w-full border border-slate-200">
       <div className="flex items-center gap-4">
         {getStatusIcon()}
         <div className="flex flex-col gap-0">
-          <span className="text-md font-bold text-slate-900">
+          <span className={cn("text-md font-bold text-slate-900")}>
             Module {moduleNumber} : {title}
           </span>
           <span className="text-xs font-semibold text-slate-600">

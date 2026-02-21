@@ -1,472 +1,282 @@
-<!doctype html>
-<html class="light" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Module Stream - Learning Journey</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300..800&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-      rel="stylesheet"
-    />
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              primary: "#FF5722",
-              "primary-hover": "#E64A19",
-              secondary: "#263238",
-              "background-page": "#F8FAFC",
-              "card-bg": "#FFFFFF",
-              "text-main": "#1A1A1A",
-              "text-muted": "#6B7280",
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Challenge Editor - Bootcamp</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f48c25",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#221910",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
             },
-            fontFamily: {
-              sans: ["Plus Jakarta Sans", "sans-serif"],
-            },
-          },
-        },
-      };
-    </script>
-    <style type="text/tailwindcss">
-      @layer base {
-        body {
-          @apply bg-background-page text-text-main font-sans overflow-hidden h-screen;
         }
-      }
-      .grid-bg {
-        background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
-        background-size: 24px 24px;
-      }
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-      }
-      .stream-line {
-        position: absolute;
-        left: 2rem;
-        top: 0;
-        bottom: 0;
-        width: 2px;
-        background: repeating-linear-gradient(
-          to bottom,
-          #cbd5e1 0,
-          #cbd5e1 8px,
-          transparent 8px,
-          transparent 16px
-        );
-        z-index: 0;
-      }
-      .stream-line-active {
-        background: #ff5722;
-      }
+    </script>
+<style>
+        body { font-family: 'Lexend', sans-serif; }
+        .code-editor-bg { background-color: #1e1e1e; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 10px; }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb { background: #4b3f35; }
     </style>
-  </head>
-  <body class="flex flex-col">
-    <header
-      class="h-16 bg-white/80 backdrop-blur-md border-b border-slate-200 z-50 px-8 flex items-center justify-between shrink-0"
-    >
-      <div class="flex items-center gap-10">
-        <div class="flex items-center gap-2.5">
-          <div
-            class="size-9 flex items-center justify-center bg-primary rounded-xl text-white shadow-lg shadow-orange-500/20"
-          >
-            <span class="material-symbols-outlined text-xl font-bold"
-              >rocket_launch</span
-            >
-          </div>
-          <h1 class="text-xl font-extrabold text-slate-900 tracking-tight">
-            LearnPath
-          </h1>
-        </div>
-        <nav class="hidden md:flex items-center gap-8">
-          <a
-            class="text-slate-500 hover:text-slate-900 text-sm font-semibold transition-colors"
-            href="#"
-            >Map View</a
-          >
-          <a class="text-slate-900 text-sm font-bold relative group" href="#">
-            Module Stream
-            <span
-              class="absolute -bottom-5 left-0 w-full h-0.5 bg-primary"
-            ></span>
-          </a>
-          <a
-            class="text-slate-500 hover:text-slate-900 text-sm font-semibold transition-colors"
-            href="#"
-            >Projects</a
-          >
-        </nav>
-      </div>
-      <div class="flex items-center gap-4">
-        <div
-          class="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full mr-4"
-        >
-          <span
-            class="material-symbols-outlined text-orange-500 text-sm font-bold"
-            >local_fire_department</span
-          >
-          <span class="text-sm font-bold text-slate-700">12 Day Streak</span>
-        </div>
-        <div
-          class="size-10 rounded-full bg-cover bg-center border-2 border-white shadow-sm ring-1 ring-slate-200"
-          style="
-            background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuAD5iqe8YYkCtOUoPBYPIii62BIo0AA6lRNP2FvU1SIfIfhe05HqgAarmvWerAEEzmy6MZH4txYsYpH4jlxLbcN2t621m6NbDm3GmEJZi4Pxh4qiPmPJ0-fJEUyAAlInXw-TKw0X_qmNZQVrT3NBwFeAR_y2s_PFfCVs-Hn15OKCUYg-C2OmK1qyn9RX8ZgP5-D9eRmWH5E98V1OCu13u1UyI2mvPEA8q6O5OO69ihZ5hCRzI80bYbb8vhpczndhYytGlVOmhHT7ng&quot;);
-          "
-        ></div>
-      </div>
-    </header>
-    <div class="flex-1 flex overflow-hidden">
-      <aside
-        class="w-[400px] border-r border-slate-200 bg-white flex flex-col z-40"
-      >
-        <div class="p-8 flex-1 overflow-y-auto no-scrollbar">
-          <div class="flex items-center gap-3 mb-6">
-            <span
-              class="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black rounded tracking-widest uppercase"
-              >Current Challenge</span
-            >
-            <div class="flex items-center gap-3 ml-auto">
-              <span class="material-symbols-outlined text-slate-400 text-lg"
-                >share</span
-              >
-              <span class="material-symbols-outlined text-slate-400 text-lg"
-                >bookmark</span
-              >
-            </div>
-          </div>
-          <h2
-            class="text-3xl font-black text-slate-900 mb-6 tracking-tight leading-tight"
-          >
-            Style a Hero Landing Page
-          </h2>
-          <div class="grid grid-cols-2 gap-4 mb-8">
-            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-              <div class="flex items-center gap-2 text-slate-400 mb-1">
-                <span class="material-symbols-outlined text-sm">schedule</span>
-                <span class="text-[10px] font-bold uppercase tracking-wider"
-                  >Duration</span
-                >
-              </div>
-              <p class="text-sm font-extrabold text-slate-700">45 Minutes</p>
-            </div>
-            <div class="p-4 rounded-2xl bg-slate-50 border border-slate-100">
-              <div class="flex items-center gap-2 text-slate-400 mb-1">
-                <span class="material-symbols-outlined text-sm">star</span>
-                <span class="text-[10px] font-bold uppercase tracking-wider"
-                  >Reward</span
-                >
-              </div>
-              <p class="text-sm font-extrabold text-slate-700">150 XP</p>
-            </div>
-          </div>
-          <div class="prose prose-slate prose-sm max-w-none">
-            <h3
-              class="text-sm font-bold text-slate-900 uppercase tracking-widest mb-3"
-            >
-              Objective
-            </h3>
-            <p class="text-slate-500 leading-relaxed mb-6">
-              You've mastered the box model. Now it's time to create a
-              real-world hero section. You'll build a responsive navigation bar,
-              a centered heading, and a call-to-action button using
-              <span
-                class="text-slate-800 font-bold underline decoration-primary/30"
-                >CSS Flexbox</span
-              >.
-            </p>
-            <h3
-              class="text-sm font-bold text-slate-900 uppercase tracking-widest mb-3"
-            >
-              Skills Covered
-            </h3>
-            <div class="flex flex-wrap gap-2 mb-8">
-              <span
-                class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-bold"
-                >Flexbox Container</span
-              >
-              <span
-                class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-bold"
-                >Justify Content</span
-              >
-              <span
-                class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-bold"
-                >Align Items</span
-              >
-              <span
-                class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-bold"
-                >Responsive Queries</span
-              >
-            </div>
-          </div>
-        </div>
-        <div class="p-6 border-t border-slate-100 bg-slate-50/50">
-          <button
-            class="w-full flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 text-white py-4 rounded-2xl font-black text-lg transition-all shadow-lg hover:shadow-xl active:scale-95 group"
-          >
-            <span>Start Challenge</span>
-            <span
-              class="material-symbols-outlined group-hover:translate-x-1 transition-transform"
-              >arrow_forward</span
-            >
-          </button>
-        </div>
-      </aside>
-      <main class="flex-1 overflow-y-auto grid-bg p-12 relative no-scrollbar">
-        <div class="max-w-3xl mx-auto space-y-12 pb-24">
-          <section class="relative">
-            <div
-              class="flex items-center gap-4 mb-6 sticky top-0 bg-background-page/80 backdrop-blur-sm py-2 z-10"
-            >
-              <div
-                class="size-10 rounded-lg bg-green-500 flex items-center justify-center text-white shadow-lg"
-              >
-                <span class="material-symbols-outlined">check_circle</span>
-              </div>
-              <div>
-                <h3 class="text-lg font-black text-slate-900">
-                  Module 1: HTML Fundamentals
-                </h3>
-                <p
-                  class="text-xs text-slate-400 font-bold uppercase tracking-widest"
-                >
-                  Completed • 3/3 Challenges
-                </p>
-              </div>
-              <button class="ml-auto material-symbols-outlined text-slate-400">
-                expand_more
-              </button>
-            </div>
-            <div class="pl-14 space-y-4 border-l-2 border-green-500/30 ml-5">
-              <div
-                class="group relative flex items-center gap-6 p-4 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div
-                  class="size-12 rounded-xl bg-slate-50 flex items-center justify-center text-primary border border-slate-100"
-                >
-                  <span class="material-symbols-outlined">html</span>
-                </div>
-                <div class="flex-1">
-                  <h4 class="text-sm font-bold text-slate-800">
-                    The Semantic Bone
-                  </h4>
-                  <p class="text-xs text-slate-500">
-                    Master article, section, and nav elements.
-                  </p>
-                </div>
-                <span class="material-symbols-outlined text-green-500"
-                  >check_circle</span
-                >
-              </div>
-              <div
-                class="group relative flex items-center gap-6 p-4 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow"
-              >
-                <div
-                  class="size-12 rounded-xl bg-slate-50 flex items-center justify-center text-primary border border-slate-100"
-                >
-                  <span class="material-symbols-outlined">article</span>
-                </div>
-                <div class="flex-1">
-                  <h4 class="text-sm font-bold text-slate-800">
-                    Build a Semantic Page
-                  </h4>
-                  <p class="text-xs text-slate-500">
-                    Constructing your first content-rich structure.
-                  </p>
-                </div>
-                <span class="material-symbols-outlined text-green-500"
-                  >check_circle</span
-                >
-              </div>
-            </div>
-          </section>
-          <section class="relative">
-            <div
-              class="flex items-center gap-4 mb-6 sticky top-0 bg-background-page/80 backdrop-blur-sm py-2 z-10"
-            >
-              <div
-                class="size-10 rounded-lg bg-primary flex items-center justify-center text-white shadow-lg shadow-orange-500/20"
-              >
-                <span class="material-symbols-outlined animate-pulse"
-                  >pending</span
-                >
-              </div>
-              <div>
-                <h3 class="text-lg font-black text-slate-900">
-                  Module 2: CSS Styling &amp; Layouts
-                </h3>
-                <p
-                  class="text-xs text-primary font-bold uppercase tracking-widest"
-                >
-                  In Progress • 1/4 Completed
-                </p>
-              </div>
-              <button class="ml-auto material-symbols-outlined text-slate-900">
-                expand_less
-              </button>
-            </div>
-            <div class="pl-14 space-y-4 border-l-2 border-primary ml-5">
-              <div
-                class="group relative flex items-center gap-6 p-4 bg-white rounded-2xl border border-slate-200 shadow-sm opacity-70"
-              >
-                <div
-                  class="size-12 rounded-xl bg-slate-50 flex items-center justify-center text-primary border border-slate-100"
-                >
-                  <span class="material-symbols-outlined">palette</span>
-                </div>
-                <div class="flex-1">
-                  <h4 class="text-sm font-bold text-slate-800">
-                    Box Model Mastery
-                  </h4>
-                  <p class="text-xs text-slate-500">
-                    Margins, padding, and borders in-depth.
-                  </p>
-                </div>
-                <span class="material-symbols-outlined text-green-500"
-                  >check_circle</span
-                >
-              </div>
-              <div
-                class="group relative flex items-center gap-6 p-6 bg-white rounded-3xl border-2 border-primary shadow-xl shadow-orange-500/10 -ml-2 ring-8 ring-background-page"
-              >
-                <div
-                  class="size-14 rounded-2xl bg-primary flex items-center justify-center text-white"
-                >
-                  <span class="material-symbols-outlined text-3xl">web</span>
-                </div>
-                <div class="flex-1">
-                  <div
-                    class="inline-block px-2 py-0.5 bg-orange-100 text-primary text-[10px] font-black rounded mb-1"
-                  >
-                    CURRENT
-                  </div>
-                  <h4 class="text-lg font-black text-slate-900">
-                    Style a Hero Landing Page
-                  </h4>
-                  <p class="text-sm text-slate-500 mt-1">
-                    Building the visual identity of a webpage with Flexbox.
-                  </p>
-                </div>
-                <button
-                  class="bg-slate-900 text-white size-10 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"
-                >
-                  <span class="material-symbols-outlined text-xl"
-                    >play_arrow</span
-                  >
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 py-3 h-16 z-20">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl">terminal</span>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">Module 3: Advanced Layouts</h2>
+</div>
+<div class="hidden md:flex items-center gap-4 ml-8">
+<div class="flex flex-col w-48 gap-1">
+<div class="flex justify-between text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+<span>Progress</span>
+<span>65%</span>
+</div>
+<div class="h-1.5 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 mr-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+<span class="material-symbols-outlined">help</span>
+</button>
+</div>
+<button class="flex items-center gap-2 px-6 py-2 bg-primary hover:bg-primary/90 text-white rounded-lg font-bold transition-all shadow-sm">
+<span>Submit Solution</span>
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary/30 overflow-hidden">
+<img alt="User avatar" data-alt="Student profile picture avatar circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxk8vtS6IBunChg1W6B1fDo8JvHVwlfsM8mdPB0H_UuW5QwXPmSdBO08FWOgCSOI3q-HIAH6XC40yK5IVItwjhSODc-6GeQx_QGnlL4HcPEBqdY1GcaFIXrPTxkeFaMAyV_7sptSOZ4_r-gEqYkqc6fBM4l1ks-xRi81cOrd1g2W7gTZcKIUTqI9z797cBFHlTSt3E1by2OvTp1xDzCGZY5PLpuBEy5rjntcZJlgu3BX5OvZn-qOOSXC-Y9HWELMexDLkSgXoFw8g"/>
+</div>
+</div>
+</header>
+<!-- Main Workspace Split Container -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Sidebar: Instructions -->
+<aside class="w-80 flex-shrink-0 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex flex-col overflow-hidden">
+<div class="p-5 border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+<div class="flex items-center gap-2 text-primary mb-1">
+<span class="material-symbols-outlined text-xl">assignment</span>
+<span class="text-xs font-bold uppercase tracking-widest">Challenge</span>
+</div>
+<h1 class="text-xl font-bold text-slate-900 dark:text-white">Build a Responsive Navbar</h1>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-5 space-y-6">
+<section>
+<h3 class="font-bold text-slate-900 dark:text-white mb-2">Instructions</h3>
+<p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+                        In this challenge, you'll practice using Flexbox to create a modern, responsive navigation bar. Your goal is to ensure the layout adapts smoothly between desktop and mobile views.
+                    </p>
+</section>
+<section>
+<h3 class="font-bold text-slate-900 dark:text-white mb-3">Requirements</h3>
+<ul class="space-y-3">
+<li class="flex gap-3 items-start group">
+<div class="mt-0.5 flex-shrink-0 w-5 h-5 border-2 border-primary rounded flex items-center justify-center bg-primary text-white">
+<span class="material-symbols-outlined text-[16px] font-bold">check</span>
+</div>
+<span class="text-sm text-slate-700 dark:text-slate-300">Set the background color of the navbar to <code>#ffffff</code>.</span>
+</li>
+<li class="flex gap-3 items-start">
+<div class="mt-0.5 flex-shrink-0 w-5 h-5 border-2 border-slate-300 dark:border-slate-600 rounded flex items-center justify-center hover:border-primary cursor-pointer transition-colors"></div>
+<span class="text-sm text-slate-700 dark:text-slate-300">Use <code>display: flex</code> to align items horizontally.</span>
+</li>
+<li class="flex gap-3 items-start">
+<div class="mt-0.5 flex-shrink-0 w-5 h-5 border-2 border-slate-300 dark:border-slate-600 rounded flex items-center justify-center hover:border-primary cursor-pointer transition-colors"></div>
+<span class="text-sm text-slate-700 dark:text-slate-300">Space the links evenly using <code>justify-content: space-between</code>.</span>
+</li>
+<li class="flex gap-3 items-start">
+<div class="mt-0.5 flex-shrink-0 w-5 h-5 border-2 border-slate-300 dark:border-slate-600 rounded flex items-center justify-center hover:border-primary cursor-pointer transition-colors"></div>
+<span class="text-sm text-slate-700 dark:text-slate-300">Add a hover state transition for all menu items.</span>
+</li>
+</ul>
+</section>
+<div class="pt-4 border-t border-slate-100 dark:border-slate-800">
+<button class="w-full flex items-center justify-between p-3 rounded-lg bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm font-medium transition-colors">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">lightbulb</span>
+                            Need a hint?
+                        </span>
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</div>
+<div class="p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 text-slate-500 text-xs">
+<span class="material-symbols-outlined text-sm">history</span>
+<span>Last autosave: 2 mins ago</span>
+</div>
+</div>
+</aside>
+<!-- Center: Code Editor -->
+<section class="flex-1 flex flex-col bg-slate-900 border-r border-slate-800">
+<!-- Editor Tabs -->
+<div class="flex bg-[#1e1e1e] border-b border-white/5 h-12">
+<button class="px-5 flex items-center gap-2 border-b-2 border-primary bg-slate-800 text-white text-sm font-medium">
+<span class="material-symbols-outlined text-sm text-[#e34c26]">html</span>
+                    index.html
                 </button>
-              </div>
-              <div
-                class="group relative flex items-center gap-6 p-4 bg-slate-100/50 rounded-2xl border border-dashed border-slate-300"
-              >
-                <div
-                  class="size-12 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400 border border-slate-200"
-                >
-                  <span class="material-symbols-outlined">grid_view</span>
-                </div>
-                <div class="flex-1">
-                  <h4 class="text-sm font-bold text-slate-400">
-                    CSS Grid Masterclass
-                  </h4>
-                  <p class="text-xs text-slate-400">
-                    Advanced 2D layouts made easy.
-                  </p>
-                </div>
-                <span class="material-symbols-outlined text-slate-300"
-                  >lock</span
-                >
-              </div>
-            </div>
-          </section>
-          <section class="relative opacity-60 grayscale-[0.5]">
-            <div class="flex items-center gap-4 mb-6">
-              <div
-                class="size-10 rounded-lg bg-slate-200 flex items-center justify-center text-slate-400"
-              >
-                <span class="material-symbols-outlined">lock</span>
-              </div>
-              <div>
-                <h3 class="text-lg font-black text-slate-400">
-                  Module 3: JavaScript Logic
-                </h3>
-                <p
-                  class="text-xs text-slate-400 font-bold uppercase tracking-widest"
-                >
-                  Locked
-                </p>
-              </div>
-              <button class="ml-auto material-symbols-outlined text-slate-300">
-                expand_more
-              </button>
-            </div>
-            <div class="pl-14 space-y-4 border-l-2 border-slate-200 ml-5">
-              <div
-                class="flex items-center gap-6 p-4 bg-slate-50 rounded-2xl border border-slate-200"
-              >
-                <div
-                  class="size-12 rounded-xl bg-white flex items-center justify-center text-slate-300 border border-slate-100"
-                >
-                  <span class="material-symbols-outlined text-xl"
-                    >javascript</span
-                  >
-                </div>
-                <div class="flex-1">
-                  <h4 class="text-sm font-bold text-slate-400">
-                    Logic &amp; Loops
-                  </h4>
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </main>
-      <aside
-        class="w-16 border-l border-slate-200 bg-white flex flex-col items-center py-6 gap-6 z-40"
-      >
-        <button
-          class="size-10 rounded-xl hover:bg-slate-100 flex items-center justify-center text-slate-400 transition-colors"
-        >
-          <span class="material-symbols-outlined">forum</span>
-        </button>
-        <button
-          class="size-10 rounded-xl hover:bg-slate-100 flex items-center justify-center text-slate-400 transition-colors"
-        >
-          <span class="material-symbols-outlined">help_outline</span>
-        </button>
-        <div class="mt-auto flex flex-col items-center gap-6">
-          <button
-            class="size-10 rounded-xl hover:bg-slate-100 flex items-center justify-center text-slate-400 transition-colors"
-          >
-            <span class="material-symbols-outlined">settings</span>
-          </button>
-        </div>
-      </aside>
-    </div>
-    <footer
-      class="h-12 bg-white border-t border-slate-200 px-8 flex items-center justify-between z-50 shrink-0"
-    >
-      <div class="flex items-center gap-6">
-        <div class="flex items-center gap-2">
-          <div class="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-            <div class="w-[35%] h-full bg-primary"></div>
-          </div>
-          <span class="text-[10px] font-black text-slate-500 uppercase"
-            >Course Progress: 35%</span
-          >
-        </div>
-      </div>
-      <div class="flex gap-4">
-        <p class="text-[10px] font-mono text-slate-400">MODE: STREAM_LINEAR</p>
-        <p class="text-[10px] font-mono text-slate-400">VERSION: 2.4.0</p>
-      </div>
-    </footer>
-  </body>
-</html>
+<button class="px-5 flex items-center gap-2 border-b-2 border-transparent hover:bg-slate-800 text-slate-400 hover:text-white text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-sm text-[#264de4]">css</span>
+                    styles.css
+                </button>
+<button class="px-5 flex items-center gap-2 border-b-2 border-transparent hover:bg-slate-800 text-slate-400 hover:text-white text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-sm text-[#f7df1e]">javascript</span>
+                    script.js
+                </button>
+</div>
+<!-- Code Content -->
+<div class="flex-1 overflow-hidden relative flex">
+<!-- Line Numbers -->
+<div class="w-12 bg-[#1e1e1e] border-r border-white/5 py-4 text-right pr-3 select-none">
+<div class="text-xs font-mono text-slate-600 leading-6">1</div>
+<div class="text-xs font-mono text-slate-600 leading-6">2</div>
+<div class="text-xs font-mono text-slate-600 leading-6">3</div>
+<div class="text-xs font-mono text-slate-600 leading-6 text-primary">4</div>
+<div class="text-xs font-mono text-slate-600 leading-6">5</div>
+<div class="text-xs font-mono text-slate-600 leading-6">6</div>
+<div class="text-xs font-mono text-slate-600 leading-6 text-primary">7</div>
+<div class="text-xs font-mono text-slate-600 leading-6 text-primary">8</div>
+<div class="text-xs font-mono text-slate-600 leading-6 text-primary">9</div>
+<div class="text-xs font-mono text-slate-600 leading-6">10</div>
+<div class="text-xs font-mono text-slate-600 leading-6">11</div>
+</div>
+<!-- Editor Canvas -->
+<div class="flex-1 bg-[#1e1e1e] p-4 font-mono text-sm leading-6 overflow-y-auto custom-scrollbar">
+<div class="text-slate-400">&lt;<span class="text-[#569cd6]">nav</span> class=<span class="text-[#ce9178]">"navbar"</span>&gt;</div>
+<div class="pl-4 text-slate-400">&lt;<span class="text-[#569cd6]">div</span> class=<span class="text-[#ce9178]">"logo"</span>&gt;</div>
+<div class="pl-8 text-slate-400">&lt;<span class="text-[#569cd6]">h2</span>&gt;<span class="text-white">EduCode</span>&lt;/<span class="text-[#569cd6]">h2</span>&gt;</div>
+<div class="pl-4 text-slate-400 bg-primary/10 w-full">&lt;/<span class="text-[#569cd6]">div</span>&gt;</div>
+<div class="pl-4 text-slate-400">&lt;<span class="text-[#569cd6]">ul</span> class=<span class="text-[#ce9178]">"nav-links"</span>&gt;</div>
+<div class="pl-8 text-slate-400">&lt;<span class="text-[#569cd6]">li</span>&gt;&lt;<span class="text-[#569cd6]">a</span> href=<span class="text-[#ce9178]">"#"</span>&gt;<span class="text-white">Dashboard</span>&lt;/<span class="text-[#569cd6]">a</span>&gt;&lt;/<span class="text-[#569cd6]">li</span>&gt;</div>
+<div class="pl-8 text-slate-400 bg-primary/10 w-full">&lt;<span class="text-[#569cd6]">li</span>&gt;&lt;<span class="text-[#569cd6]">a</span> href=<span class="text-[#ce9178]">"#"</span>&gt;<span class="text-white">Curriculum</span>&lt;/<span class="text-[#569cd6]">a</span>&gt;&lt;/<span class="text-[#569cd6]">li</span>&gt;</div>
+<div class="pl-8 text-slate-400 bg-primary/10 w-full">&lt;<span class="text-[#569cd6]">li</span>&gt;&lt;<span class="text-[#569cd6]">a</span> href=<span class="text-[#ce9178]">"#"</span>&gt;<span class="text-white">Settings</span>&lt;/<span class="text-[#569cd6]">a</span>&gt;&lt;/<span class="text-[#569cd6]">li</span>&gt;</div>
+<div class="pl-4 text-slate-400 bg-primary/10 w-full">&lt;/<span class="text-[#569cd6]">ul</span>&gt;</div>
+<div class="text-slate-400">&lt;/<span class="text-[#569cd6]">nav</span>&gt;</div>
+<div class="relative"><span class="inline-block w-[2px] h-5 bg-primary animate-pulse absolute top-0.5"></span></div>
+</div>
+<!-- Run Code Floating Button -->
+<div class="absolute bottom-6 right-6 flex gap-2">
+<button class="px-5 py-2.5 bg-primary text-white rounded-full font-bold shadow-xl flex items-center gap-2 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined">play_arrow</span>
+                        Run Code
+                    </button>
+<button class="p-2.5 bg-slate-800 text-slate-300 rounded-full hover:bg-slate-700 transition-colors shadow-xl">
+<span class="material-symbols-outlined">restart_alt</span>
+</button>
+</div>
+</div>
+<!-- Editor Status Bar -->
+<div class="h-6 bg-slate-900 border-t border-white/5 flex items-center justify-between px-4 text-[10px] text-slate-500 font-medium uppercase tracking-widest">
+<div class="flex gap-4">
+<span>UTF-8</span>
+<span>Spaces: 4</span>
+</div>
+<div>Ln 9, Col 12</div>
+</div>
+</section>
+<!-- Right: Preview -->
+<section class="w-[30%] lg:w-[400px] xl:w-[480px] flex-shrink-0 flex flex-col bg-white dark:bg-slate-900">
+<div class="h-12 flex items-center justify-between px-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400 text-lg">visibility</span>
+<span class="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">Live Preview</span>
+</div>
+<div class="flex items-center gap-1">
+<div class="size-2 rounded-full bg-green-500"></div>
+<span class="text-[10px] font-bold text-slate-400">SYNCED</span>
+</div>
+</div>
+<div class="flex-1 bg-slate-100 dark:bg-black/20 p-4 relative overflow-hidden">
+<!-- Browser-like container -->
+<div class="w-full h-full bg-white dark:bg-slate-900 rounded-lg shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden">
+<div class="h-8 bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-800 flex items-center px-3 gap-2">
+<div class="flex gap-1.5">
+<div class="size-2.5 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+<div class="size-2.5 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+<div class="size-2.5 rounded-full bg-slate-300 dark:bg-slate-600"></div>
+</div>
+<div class="flex-1 mx-4 h-5 bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-700 px-2 flex items-center">
+<div class="text-[9px] text-slate-400 truncate">localhost:3000/challenge-preview</div>
+</div>
+</div>
+<!-- Preview Canvas -->
+<div class="flex-1 bg-background-light dark:bg-background-dark p-0 flex flex-col">
+<!-- Simulated Navigation Bar Output -->
+<nav class="w-full h-14 bg-white dark:bg-slate-800 px-6 flex items-center justify-between border-b border-slate-200 dark:border-slate-700 shadow-sm">
+<h2 class="text-primary font-bold">EduCode</h2>
+<div class="flex gap-4 text-xs font-medium text-slate-600 dark:text-slate-300">
+<span class="text-primary border-b-2 border-primary">Dashboard</span>
+<span>Curriculum</span>
+<span>Settings</span>
+</div>
+</nav>
+<div class="p-8 space-y-4 opacity-20 select-none">
+<div class="h-4 w-48 bg-slate-300 dark:bg-slate-700 rounded"></div>
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-800 rounded"></div>
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-800 rounded"></div>
+<div class="h-2 w-2/3 bg-slate-200 dark:bg-slate-800 rounded"></div>
+<div class="mt-8 grid grid-cols-2 gap-4">
+<div class="h-24 bg-slate-200 dark:bg-slate-800 rounded"></div>
+<div class="h-24 bg-slate-200 dark:bg-slate-800 rounded"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Inspector Toggle Overlay -->
+<div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm border border-slate-200 dark:border-slate-700 px-4 py-2 rounded-full shadow-lg flex items-center gap-6">
+<button class="flex items-center gap-2 text-slate-600 dark:text-slate-300 text-xs font-bold hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">devices</span>
+                        Desktop
+                    </button>
+<div class="h-4 w-[1px] bg-slate-300 dark:bg-slate-600"></div>
+<button class="flex items-center gap-2 text-slate-400 dark:text-slate-500 text-xs font-bold hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">smartphone</span>
+                        Mobile
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Toast Notification (Success state simulator) -->
+<div class="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl z-50 animate-bounce cursor-pointer">
+<div class="size-6 bg-green-500 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-xs">check</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xs font-bold">Code Compiled Successfully</span>
+<span class="text-[10px] text-slate-400">All tests passed in 142ms</span>
+</div>
+<button class="ml-4 text-slate-500 hover:text-white">
+<span class="material-symbols-outlined text-sm">close</span>
+</button>
+</div>
+</body></html>
