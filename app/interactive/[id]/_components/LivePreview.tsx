@@ -3,7 +3,7 @@ import { FaDesktop } from "react-icons/fa6";
 import { FaMobileAlt } from "react-icons/fa";
 import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
-import { File } from "../page";
+import { type File } from "./ClientPage";
 
 type LivePreviewProps = {
   files: Record<string, File>;
@@ -27,9 +27,24 @@ const LivePreview = ({ files, isResizing }: LivePreviewProps) => {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <style>
-          ${cssContent}
-        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <style>${cssContent}</style>
+        <script>
+            // Intercept clicks and form submissions to prevent navigation
+            document.addEventListener('click', (e) => {
+              const link = e.target.closest('a');
+              if (link) {
+                e.preventDefault();
+                console.log('Link navigation prevented');
+              }
+            }, true); // Capture phase
+            
+            // Prevent form submission
+            document.addEventListener('submit', (e) => {
+              e.preventDefault();
+              console.log('Form submission prevented');
+            }, true); // Capture phase
+        </script>
       </head>
       <body>
         ${htmlContent}
@@ -46,14 +61,14 @@ const LivePreview = ({ files, isResizing }: LivePreviewProps) => {
   }, [files]);
 
   return (
-    <div className="flex flex-col h-full w-full border-r relative bg-slate-50">
+    <div className="flex flex-col h-full w-full border-r relative bg-muted">
       {/* Header */}
-      <div className="p-4 flex items-center justify-between bg-white border-b border-border/40">
+      <div className="p-4 flex items-center justify-between bg-background border-b border-border/40">
         <div className="flex items-center gap-2">
-          <FiEye size={18} className="text-slate-600" strokeWidth={3} />
-          <h2 className="text-sm font-black text-slate-700  ">Live Preview</h2>
+          <FiEye size={18} className="text-muted-foreground" strokeWidth={3} />
+          <h2 className="text-sm font-black text-foreground  ">Live Preview</h2>
         </div>
-        <div className="text-xs text-slate-400 font-medium">Auto-updating</div>
+        <div className="text-xs text-muted-foreground font-medium">Auto-updating</div>
       </div>
 
       {/* Preview Area */}
@@ -63,48 +78,48 @@ const LivePreview = ({ files, isResizing }: LivePreviewProps) => {
           className={cn(
             "bg-white transition-all duration-500 ease-in-out  relative overflow-hidden",
             viewMode === "mobile" 
-              ? "w-[375px] h-[667px] rounded-[3rem] border-[8px] border-slate-800 shadow-xl" 
-              : "w-full h-full rounded-lg",
+              ? "w-93.75 h-166.75 rounded-[3rem] border-8 border-foreground shadow-xl" 
+              : "w-full h-full ",
               isResizing && "pointer-events-none select-none transition-none"
           )}
         >
           {viewMode === "mobile" && (
-             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-800 rounded-b-xl z-20"></div>
+             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-foreground rounded-b-xl z-20"></div>
           )}
           
           <iframe
             title="preview"
             srcDoc={srcDoc}
             className="w-full h-full border-none bg-white"
-            sandbox="allow-scripts"
+            sandbox="allow-scripts allow-modals allow-same-origin"
           />
         </div>
       </div>
 
       {/* View Toggle Controls */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center bg-white border border-slate-200 shadow-lg rounded-full p-1 gap-1 z-50">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center bg-card border border-border shadow-lg rounded-full p-1 gap-1 z-50">
         <button
           onClick={() => setViewMode("desktop")}
           className={cn(
             "flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all",
             viewMode === "desktop"
-              ? "bg-slate-800 text-white shadow-md transform scale-105"
-              : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+              ? "bg-foreground text-background shadow-md transform scale-105"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted"
           )}
         >
           <FaDesktop size={14} />
           <span>Desktop</span>
         </button>
 
-        <div className="w-px h-4 bg-slate-200 mx-1"></div>
+        <div className="w-px h-4 bg-border mx-1"></div>
 
         <button
           onClick={() => setViewMode("mobile")}
           className={cn(
             "flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold transition-all",
             viewMode === "mobile"
-              ? "bg-slate-800 text-white shadow-md transform scale-105"
-              : "text-slate-500 hover:text-slate-900 hover:bg-slate-50"
+              ? "bg-foreground text-background shadow-md transform scale-105"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted"
           )}
         >
           <FaMobileAlt size={14} />

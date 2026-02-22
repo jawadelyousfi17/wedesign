@@ -20,19 +20,19 @@ const ModulCard = ({
     switch (status) {
       case "Completed":
         return (
-          <div className="flex justify-center items-center p-2 border-2 border-green-600 rounded-2xl bg-green-50 text-green-600">
+          <div className="flex justify-center items-center p-2 border-2 border-border/10 rounded-2xl bg-muted text-green-600">
             <Check size={20} />
           </div>
         );
       case "progress":
         return (
-          <div className="flex justify-center items-center p-2 border-2 border-slate-900 rounded-2xl bg-white text-slate-900">
+          <div className="flex justify-center items-center p-2 border-2 border-slate-900 rounded-2xl bg-muted text-primary">
             <Loader size={20} />
           </div>
         );
       case "Locked":
         return (
-          <div className="flex justify-center items-center p-2 border-2 border-slate-900 rounded-2xl bg-white text-slate-900">
+          <div className="flex justify-center items-center p-2 border-2 border-slate-900 rounded-2xl bg-muted text-slate-900">
             <Lock size={20} />
           </div>
         );
@@ -51,14 +51,14 @@ const ModulCard = ({
   };
 
   return (
-    <div className="flex justify-between items-center bg-slate-100/80 p-3 w-full border border-slate-200">
+    <div className="flex justify-between items-center bg-card p-3 w-full border border-muted-foreground/20 ">
       <div className="flex items-center gap-4">
         {getStatusIcon()}
         <div className="flex flex-col gap-0">
-          <span className={cn("text-md font-bold text-slate-900")}>
+          <span className={cn("text-md font-bold text-foreground", status === "progress" ? "text-primary" : "", status === "Locked" ? "text-slate-500" : "")}>
             Module {moduleNumber} : {title}
           </span>
-          <span className="text-xs font-semibold text-slate-600">
+          <span className="text-xs font-semibold text-foreground/50">
             {getStatusText()}
           </span>
         </div>

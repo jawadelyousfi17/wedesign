@@ -1,13 +1,15 @@
 import { cn } from "@/lib/utils";
 import { Check, Lock, Play } from "lucide-react";
+import Link from "next/link";
 
 type PathCardProps = {
+  id: string;
   title: string;
   description: string;
   status: "Completed" | "Not started" | "Locked" | "Current";
 };
 
-const PathCard = ({ title, description, status }: PathCardProps) => {
+const PathCard = ({ id, title, description, status }: PathCardProps) => {
   const getStatusBadge = () => {
     switch (status) {
       case "Completed":
@@ -40,34 +42,55 @@ const PathCard = ({ title, description, status }: PathCardProps) => {
     }
   };
 
-  return (
-    <div
-      className={`flex justify-between p-2 rounded-2xl border border-border/0  bg-white items-center cursor-pointer transition-colors ${
-        status === "Locked"
-          ? "bg-slate-50  opacity-60"
-          : status === "Current"
-            ? "hover:border-primary bg-muted/50 "
-            : " hover:border-slate-300 "
-      }`}
-    >
+  const content = (
+    <>
       <div className="flex items-center gap-4">
-              {getStatusBadge()}
-
+        {getStatusBadge()}
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-
-          <span className={cn("text-md font-semibold  text-blue-600" , status === "Current" ? "text-primary" : "", status === "Locked" ? "text-slate-500" : "")}>{title}</span>
-          {status === "Current" && (
-             <span className="px-2 py-0.5 bg-primary/15 text-primary text-xs font-bold rounded-sm">
-              Current
+            <span
+              className={cn(
+                "text-md font-semibold  text-blue-600",
+                status === "Current" ? "text-primary" : "",
+                status === "Locked" ? "text-slate-500" : ""
+              )}
+            >
+              {title}
             </span>
-          )}
+            {status === "Current" && (
+              <span className="px-2 py-0.5 bg-primary/15 text-primary text-xs font-bold rounded-sm">
+                Current
+              </span>
+            )}
           </div>
-          
+
           <span className="text-sm text-slate-500">{description}</span>
         </div>
       </div>
-    </div>
+    </>
+  );
+
+  if (status === "Locked") {
+    return (
+      <div
+        className={`flex justify-between p-2 rounded-2xl border border-border/0  bg-background items-center cursor-not-allowed transition-colors opacity-60`}
+      >
+        {content}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href={`/interactive/${id}`}
+      className={`flex justify-between p-2 rounded-2xl border border-border/0  bg-background items-center cursor-pointer transition-colors ${
+        status === "Current"
+          ? "hover:border-primary bg-muted/50 "
+          : " hover:border-card/50 hover:bg-muted/50"
+      }`}
+    >
+      {content}
+    </Link>
   );
 };
 

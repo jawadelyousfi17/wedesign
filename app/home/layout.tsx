@@ -14,13 +14,9 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
-      <body >
-
+      <>
         <MainNavbar />
-
         <main className="flex-grow">{children}</main>
-      </body>
-    </html>
+      </>
   );
 }
